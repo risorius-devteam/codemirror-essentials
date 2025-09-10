@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { CodeMirror, useInsertComponent } from "@codemirror-essentials/react";
+import { CodeMirror, useLineWidget } from "@codemirror-essentials/react";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 
@@ -29,7 +29,7 @@ const MyCustomWidget = ({
     }}
     onClick={removeHandler}
   >
-    📝 {text}
+    {text}
   </div>
 );
 
@@ -40,50 +40,45 @@ function App() {
   const viewRef = useRef<EditorView | null>(null);
   const idMap = useRef<Map<number, string>>(new Map());
 
-  const { insertComponent, removeComponent, lineWidgetExtension } =
-    useInsertComponent(viewRef.current);
+  const { addLineWidget, removeLineWidget, lineWidgetExtension } =
+    useLineWidget(viewRef.current);
+
+  // 현재 코드의 라인 수 계산
+  const totalLines = code.split("\n").length;
 
   const handleInsertWidget = () => {
     const id = `widget-${Date.now()}`;
-    insertComponent(
-      <MyCustomWidget
-        text={widgetText}
-        removeHandler={() => removeComponent(id)}
-      />,
-      {
-        lineNumber,
-        position: "below",
-        id,
-      }
-    );
+    addLineWidget({
+      lineNumber,
+      component: (
+        <MyCustomWidget
+          text="텍스트"
+          removeHandler={() => removeLineWidget(id)}
+        />
+      ),
+      id,
+    });
     idMap.current.set(0, id);
   };
 
   const handleInsertAbove = () => {
     const id = `widget-above-${Date.now()}`;
-    insertComponent(
-      <div
-        style={{
-          background: "#e6f3ff",
-          padding: "8px",
-          border: "1px solid #007acc",
-          borderRadius: "4px",
-        }}
-      >
-        ⬆️ 위에 삽입된 컴포넌트
-      </div>,
-      {
-        lineNumber,
-        position: "above",
-        id,
-      }
-    );
+    addLineWidget({
+      lineNumber,
+      component: (
+        <MyCustomWidget
+          text="텍스트"
+          removeHandler={() => removeLineWidget(id)}
+        />
+      ),
+      id,
+    });
   };
 
   const handleRemoveWidget = () => {
     const deleteId = idMap.current.get(0);
 
-    removeComponent(deleteId ?? "");
+    removeLineWidget(deleteId ?? "");
   };
 
   return (
@@ -92,13 +87,22 @@ function App() {
 
       <div style={{ marginBottom: "16px" }}>
         <label>
-          라인 번호:
+          Line Number (1-{totalLines}):
           <input
             type="number"
             min="1"
             value={lineNumber}
-            onChange={(e) => setLineNumber(Number(e.target.value))}
-            style={{ marginLeft: "8px", marginRight: "16px" }}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setLineNumber(value);
+            }}
+            style={{
+              marginLeft: "8px",
+              marginRight: "16px",
+              width: "80px",
+              backgroundColor:
+                lineNumber > totalLines || lineNumber < 1 ? "#ffe6e6" : "white",
+            }}
           />
         </label>
 

@@ -1,3 +1,3 @@
-export { useInsertComponent } from "./useInsertComponent";
-export type { InsertComponentOptions } from "./useInsertComponent";
+export { CodeMirror } from "./CodeMirror";
+export type { CodeMirrorProps } from "./CodeMirror";
 export { useLineWidget } from "./useLineWidget";

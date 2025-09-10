@@ -12,7 +12,8 @@ interface LineWidgetSpec {
   lineNumber: number;
   component: React.ReactElement;
   id?: string;
-  above?: boolean; // true: 라인 위에, false: 라인 아래에 (기본값)
+  above?: boolean;
+  isBlock?: boolean;
 }
 
 const addLineWidgetEffect = StateEffect.define<LineWidgetSpec>();
@@ -39,7 +40,6 @@ class ReactLineWidget extends WidgetType {
     const root = createRoot(container);
     root.render(this.component);
 
-    // cleanup을 위해 container에 root 저장
     (container as any).__reactRoot = root;
 
     return container;
@@ -67,15 +67,25 @@ const lineWidgetField = StateField.define<DecorationSet>({
 
     for (const effect of tr.effects) {
       if (effect.is(addLineWidgetEffect)) {
-        const { lineNumber, component, id, above = false } = effect.value;
-        const line = tr.state.doc.line(lineNumber);
+        const {
+          lineNumber,
+          component,
+          id,
+          above = false,
+          isBlock = true,
+        } = effect.value;
+
+        const totalLines = tr.state.doc.lines;
+        const validLineNumber = Math.max(1, Math.min(lineNumber, totalLines));
+
+        const line = tr.state.doc.line(validLineNumber);
         const pos = above ? line.from : line.to;
 
         const widget = new ReactLineWidget(component, id);
         const decoration = Decoration.widget({
           widget,
           side: above ? -1 : 1,
-          block: true,
+          block: isBlock,
         });
 
         widgets = widgets.update({
