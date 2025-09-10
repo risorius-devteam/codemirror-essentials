@@ -1,0 +1,42 @@
+{
+  "name": "@codemirror-essentials/react",
+  "version": "0.0.1",
+  "description": "React wrapper for CodeMirror 6",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "test": "echo 'No tests yet'"
+  },
+  "keywords": [
+    "codemirror",
+    "react",
+    "editor",
+    "code-editor"
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.23.0"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
