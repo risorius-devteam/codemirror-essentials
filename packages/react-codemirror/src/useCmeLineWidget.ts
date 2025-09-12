@@ -110,7 +110,7 @@ const lineWidgetField = StateField.define<DecorationSet>({
   provide: (f) => EditorView.decorations.from(f),
 });
 
-export const useLineWidget = (view: EditorView | null) => {
+export const useCmeLineWidget = (view: EditorView | null) => {
   const addLineWidget = useCallback(
     (spec: LineWidgetSpec) => {
       if (!view) return;
