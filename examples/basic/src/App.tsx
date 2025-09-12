@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { CodeMirror, useLineWidget } from "@codemirror-essentials/react";
+import { CodeMirror, useCmeLineWidget } from "@codemirror-essentials/react";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 
@@ -41,7 +41,7 @@ function App() {
   const idMap = useRef<Map<number, string>>(new Map());
 
   const { addLineWidget, removeLineWidget, lineWidgetExtension } =
-    useLineWidget(viewRef.current);
+    useCmeLineWidget(viewRef.current);
 
   // 현재 코드의 라인 수 계산
   const totalLines = code.split("\n").length;

@@ -33,13 +33,23 @@ const injectField = StateField.define<DecorationSet>({
         const { type, range, singleLineNumber, id, className } = effect.value;
         const totalLines = tr.state.doc.lines;
 
-        const validate = ({ from, to }: { from: number; to: number }) => {
-          return from >= 1 && to <= totalLines;
+        const validateLineNumbers = ({
+          from,
+          to,
+        }: {
+          from: number;
+          to: number;
+        }) => {
+          return from >= 1 && from <= totalLines && to >= 1 && to <= totalLines;
         };
 
-        if (type === "range" && range && validate(range)) {
-          const startLine = tr.state.doc.lineAt(range.from).number;
-          const endLine = tr.state.doc.lineAt(range.to).number;
+        if (type === "range" && range) {
+          const startLine = range.from;
+          const endLine = range.to;
+
+          if (!validateLineNumbers({ from: startLine, to: endLine })) {
+            continue;
+          }
 
           const decorations = [];
           for (let lineNum = startLine; lineNum <= endLine; lineNum++) {
@@ -76,21 +86,18 @@ const injectField = StateField.define<DecorationSet>({
 
       if (effect.is(removeInjectEffect)) {
         const { type, content } = effect.value;
-
-        // Filter out decorations that match the removal criteria
         const filtered: any[] = [];
+
         value.between(0, tr.state.doc.length, (from, to, decoration) => {
           const attrs = decoration.spec.attributes as
             | Record<string, string>
             | undefined;
           if (attrs) {
-            // Check if this decoration should be removed
             const shouldRemove =
               (type === "className" && attrs.class === content) ||
               (type === "id" && attrs.id === content);
 
             if (!shouldRemove) {
-              // Keep this decoration
               filtered.push(decoration.range(from, to));
             }
           }
