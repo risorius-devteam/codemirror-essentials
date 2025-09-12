@@ -34,18 +34,75 @@ describe("useCmeLineWidget", () => {
 
     it("should handle null view gracefully", () => {
       const { result } = renderHook(() => useCmeLineWidget(null));
-      const MockComponent = <div>Test</div>;
+      const MockComponent = <div>Test Widget</div>;
 
       expect(() => {
         act(() => {
           result.current.addLineWidget({
             lineNumber: 1,
             component: MockComponent,
+            id: "test-id-1",
           });
         });
       }).not.toThrow();
 
-      expect(mockDispatch).not.toHaveBeenCalled();
+      expect(() => {
+        act(() => {
+          result.current.removeLineWidget("test-id");
+        });
+      }).not.toThrow();
+    });
+  });
+
+  describe("addLineWidget", () => {
+    it("should dispatch effect when user called", () => {
+      const { result } = renderHook(() => useCmeLineWidget(mockView));
+      const MockComponent = <div>Test</div>;
+
+      act(() => {
+        result.current.addLineWidget({
+          lineNumber: 1,
+          component: MockComponent,
+          id: "test-id-1",
+        });
+      });
+
+      const call = mockDispatch.mock.calls[0][0];
+      expect(call).toHaveProperty("effects");
+      expect(call.effects.value).toEqual({
+        lineNumber: 1,
+        component: MockComponent,
+        id: "test-id-1",
+      });
+    });
+
+    it("should dispatch even with invalid line numbers (validation handled by CodeMirror", () => {
+      const { result } = renderHook(() => useCmeLineWidget(mockView));
+      const MockComponent = <div>Test</div>;
+
+      act(() => {
+        result.current.addLineWidget({
+          lineNumber: 0,
+          component: MockComponent,
+          id: "test-id-1",
+        });
+      });
+
+      expect(mockDispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe("removeLineWidget", () => {
+    it("should dispatch effect when user called", () => {
+      const { result } = renderHook(() => useCmeLineWidget(mockView));
+
+      act(() => {
+        result.current.removeLineWidget("test-id-1");
+      });
+
+      const call = mockDispatch.mock.calls[0][0];
+      expect(call).toHaveProperty("effects");
+      expect(call.effects.value).toEqual("test-id-1");
     });
   });
 });

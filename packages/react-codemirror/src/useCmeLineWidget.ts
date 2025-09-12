@@ -11,7 +11,7 @@ import { StateField, StateEffect } from "@codemirror/state";
 interface LineWidgetSpec {
   lineNumber: number;
   component: React.ReactElement;
-  id?: string;
+  id: string;
   above?: boolean;
   isBlock?: boolean;
 }
@@ -20,11 +20,11 @@ const addLineWidgetEffect = StateEffect.define<LineWidgetSpec>();
 const removeLineWidgetEffect = StateEffect.define<string>();
 
 class ReactLineWidget extends WidgetType {
-  public id?: string;
+  public id: string;
 
   constructor(
     private component: React.ReactElement,
-    id?: string
+    id: string
   ) {
     super();
     this.id = id;
