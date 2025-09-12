@@ -1,398 +1,4 @@
 {
-  "packages/react-codemirror": {
-    "root": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.options": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.cache": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.outputs": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.executor": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.options.cwd": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.options.command": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.metadata.technologies": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata.technologies.0": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata.description": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata.help": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata.help.command": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.test.metadata.help.example": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.build-deps": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.build-deps.dependsOn": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.continuous": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.dependsOn": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.executor": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.options": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.options.command": [
-      "packages/react-codemirror/vitest.config.ts",
-      "@nx/vite/plugin"
-    ],
-    "name": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:public": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:codemirror": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:react": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:editor": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:code-editor": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups.NPM Scripts": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups.NPM Scripts.0": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups.NPM Scripts.1": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.description": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageName": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageExports": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageMain": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.isInPackageManagerWorkspaces": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.executor": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.options": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.options.script": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata.scriptContent": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata.runCommand": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.executor": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.options": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.metadata": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.options.script": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.metadata.scriptContent": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.clean.metadata.runCommand": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.nx-release-publish": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.nx-release-publish.executor": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.nx-release-publish.dependsOn": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.nx-release-publish.options": [
-      "packages/react-codemirror/package.json",
-      "nx/core/package-json"
-    ],
-    "sourceRoot": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "tags.type:lib": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "tags.framework:react": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.executor": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.outputs": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.cache": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.command": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.cwd": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run.executor": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run.options": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run.cache": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run.options.command": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test:run.options.cwd": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.executor": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.options": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.cache": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.options.lintFilePatterns": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check.executor": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check.options": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check.cache": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check.options.command": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.type-check.options.cwd": [
-      "packages/react-codemirror/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.test.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test:run.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test:run.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.type-check.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.type-check.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
   "examples/highlight": {
     "root": [
       "examples/highlight/project.json",
@@ -1455,6 +1061,400 @@
       "nx/target-defaults"
     ],
     "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.type-check.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.type-check.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  },
+  "packages/react-codemirror": {
+    "root": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.cache": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.outputs": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.executor": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.cwd": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.command": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.metadata.technologies": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata.technologies.0": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata.description": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata.help": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata.help.command": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.test.metadata.help.example": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.build-deps": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.build-deps.dependsOn": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.continuous": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.dependsOn": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.executor": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.options": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.options.command": [
+      "packages/react-codemirror/vitest.config.ts",
+      "@nx/vite/plugin"
+    ],
+    "name": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:codemirror": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:react": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:editor": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:code-editor": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.0": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.1": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageExports": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.executor": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.options": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.options.script": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata.scriptContent": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata.runCommand": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.executor": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.options": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.options.script": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata.scriptContent": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata.runCommand": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "packages/react-codemirror/package.json",
+      "nx/core/package-json"
+    ],
+    "sourceRoot": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:lib": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.framework:react": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.cache": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.command": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.cwd": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run.executor": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run.options": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run.cache": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run.options.command": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test:run.options.cwd": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.executor": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.options": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.cache": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.options.lintFilePatterns": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check.executor": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check.options": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check.cache": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check.options.command": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.type-check.options.cwd": [
+      "packages/react-codemirror/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test:run.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test:run.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],

@@ -29,16 +29,12 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "tsconfig.json",
-        "hash": "1622732830893935891"
-      },
-      {
         "file": ".changeset/config.json",
         "hash": "8502924383422815736"
       },
       {
         "file": ".gitignore",
-        "hash": "5172183206799920839"
+        "hash": "7740781030741240802"
       },
       {
         "file": ".prettierignore",
@@ -53,27 +49,95 @@
         "hash": "5332618109890802458"
       },
       {
-        "file": "pnpm-lock.yaml",
-        "hash": "2156281951176804600"
+        "file": "eslint.config.js",
+        "hash": "4548885225742178800"
       },
       {
         "file": "nx.json",
         "hash": "6585911917698957753"
       },
       {
+        "file": "package.json",
+        "hash": "13086274192192644956"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "2156281951176804600"
+      },
+      {
         "file": "pnpm-workspace.yaml",
         "hash": "12222378983886794742"
       },
       {
-        "file": "eslint.config.js",
-        "hash": "4548885225742178800"
-      },
-      {
-        "file": "package.json",
-        "hash": "13086274192192644956"
+        "file": "tsconfig.json",
+        "hash": "1622732830893935891"
       }
     ],
     "projectFileMap": {
+      "inject-class-name-example": [
+        {
+          "file": "examples/inject-class-name/index.html",
+          "hash": "14276802707142404403"
+        },
+        {
+          "file": "examples/inject-class-name/package.json",
+          "hash": "16549153477363942438",
+          "deps": [
+            "npm:@tailwindcss/postcss",
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:@vitejs/plugin-react",
+            "npm:autoprefixer",
+            "npm:postcss",
+            "npm:tailwindcss",
+            "npm:vite",
+            "react-codemirror",
+            "npm:@codemirror/lang-javascript",
+            "npm:@codemirror/state",
+            "npm:@codemirror/view",
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "examples/inject-class-name/postcss.config.js",
+          "hash": "7417488532638945263"
+        },
+        {
+          "file": "examples/inject-class-name/project.json",
+          "hash": "14702274530339382389"
+        },
+        {
+          "file": "examples/inject-class-name/src/App.tsx",
+          "hash": "10946301426383799364",
+          "deps": [
+            "npm:react",
+            "npm:@codemirror/view",
+            "npm:@codemirror/lang-javascript",
+            "react-codemirror"
+          ]
+        },
+        {
+          "file": "examples/inject-class-name/src/main.tsx",
+          "hash": "11750801453187943436",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "examples/inject-class-name/tailwind.config.js",
+          "hash": "14782148506420561591"
+        },
+        {
+          "file": "examples/inject-class-name/vite.config.ts",
+          "hash": "5908771750736786156",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react"
+          ]
+        }
+      ],
       "react-codemirror": [
         {
           "file": "packages/react-codemirror/package.json",
@@ -162,57 +226,6 @@
           ]
         }
       ],
-      "line-widget-example": [
-        {
-          "file": "examples/line-widget/index.html",
-          "hash": "9850941361469869173"
-        },
-        {
-          "file": "examples/line-widget/package.json",
-          "hash": "11190299259431347280",
-          "deps": [
-            "npm:@types/react",
-            "npm:@types/react-dom",
-            "npm:@vitejs/plugin-react",
-            "npm:vite",
-            "react-codemirror",
-            "npm:@codemirror/lang-javascript",
-            "npm:@codemirror/state",
-            "npm:@codemirror/view",
-            "npm:react",
-            "npm:react-dom"
-          ]
-        },
-        {
-          "file": "examples/line-widget/project.json",
-          "hash": "11171963440914140114"
-        },
-        {
-          "file": "examples/line-widget/src/App.tsx",
-          "hash": "13832351750989238805",
-          "deps": [
-            "npm:react",
-            "react-codemirror",
-            "npm:@codemirror/view",
-            "npm:@codemirror/lang-javascript"
-          ]
-        },
-        {
-          "file": "examples/line-widget/src/main.tsx",
-          "hash": "15723291757842583418",
-          "deps": [
-            "npm:react-dom"
-          ]
-        },
-        {
-          "file": "examples/line-widget/vite.config.ts",
-          "hash": "12293784026038316432",
-          "deps": [
-            "npm:vite",
-            "npm:@vitejs/plugin-react"
-          ]
-        }
-      ],
       "highlight-example": [
         {
           "file": "examples/highlight/index.html",
@@ -277,22 +290,18 @@
           ]
         }
       ],
-      "inject-class-name-example": [
+      "line-widget-example": [
         {
-          "file": "examples/inject-class-name/index.html",
-          "hash": "14276802707142404403"
+          "file": "examples/line-widget/index.html",
+          "hash": "9850941361469869173"
         },
         {
-          "file": "examples/inject-class-name/package.json",
-          "hash": "16549153477363942438",
+          "file": "examples/line-widget/package.json",
+          "hash": "11190299259431347280",
           "deps": [
-            "npm:@tailwindcss/postcss",
             "npm:@types/react",
             "npm:@types/react-dom",
             "npm:@vitejs/plugin-react",
-            "npm:autoprefixer",
-            "npm:postcss",
-            "npm:tailwindcss",
             "npm:vite",
             "react-codemirror",
             "npm:@codemirror/lang-javascript",
@@ -303,38 +312,29 @@
           ]
         },
         {
-          "file": "examples/inject-class-name/postcss.config.js",
-          "hash": "7417488532638945263"
+          "file": "examples/line-widget/project.json",
+          "hash": "11171963440914140114"
         },
         {
-          "file": "examples/inject-class-name/project.json",
-          "hash": "14702274530339382389"
-        },
-        {
-          "file": "examples/inject-class-name/src/App.tsx",
-          "hash": "10946301426383799364",
+          "file": "examples/line-widget/src/App.tsx",
+          "hash": "13832351750989238805",
           "deps": [
             "npm:react",
+            "react-codemirror",
             "npm:@codemirror/view",
-            "npm:@codemirror/lang-javascript",
-            "react-codemirror"
+            "npm:@codemirror/lang-javascript"
           ]
         },
         {
-          "file": "examples/inject-class-name/src/main.tsx",
-          "hash": "11750801453187943436",
+          "file": "examples/line-widget/src/main.tsx",
+          "hash": "15723291757842583418",
           "deps": [
-            "npm:react",
             "npm:react-dom"
           ]
         },
         {
-          "file": "examples/inject-class-name/tailwind.config.js",
-          "hash": "14782148506420561591"
-        },
-        {
-          "file": "examples/inject-class-name/vite.config.ts",
-          "hash": "5908771750736786156",
+          "file": "examples/line-widget/vite.config.ts",
+          "hash": "12293784026038316432",
           "deps": [
             "npm:vite",
             "npm:@vitejs/plugin-react"
