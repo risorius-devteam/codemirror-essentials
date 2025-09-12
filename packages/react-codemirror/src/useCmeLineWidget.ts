@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import {
   EditorView,
   WidgetType,
@@ -7,6 +7,10 @@ import {
   DecorationSet,
 } from "@codemirror/view";
 import { StateField, StateEffect } from "@codemirror/state";
+
+interface ReactContainerWithRoot extends HTMLElement {
+  __reactRoot?: Root;
+}
 
 interface LineWidgetSpec {
   lineNumber: number;
@@ -31,7 +35,7 @@ class ReactLineWidget extends WidgetType {
   }
 
   toDOM() {
-    const container = document.createElement("div");
+    const container = document.createElement("div") as ReactContainerWithRoot;
     container.className = "cm-line-widget";
     if (this.id) {
       container.id = `line-widget-${this.id}`;
@@ -40,13 +44,13 @@ class ReactLineWidget extends WidgetType {
     const root = createRoot(container);
     root.render(this.component);
 
-    (container as any).__reactRoot = root;
+    container.__reactRoot = root;
 
     return container;
   }
 
   destroy(dom: HTMLElement) {
-    const container = dom as any;
+    const container = dom as ReactContainerWithRoot;
     if (container?.__reactRoot) {
       container.__reactRoot.unmount();
     }

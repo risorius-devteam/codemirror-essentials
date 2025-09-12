@@ -1,4 +1,4 @@
-import { StateEffect, StateField } from "@codemirror/state";
+import { StateEffect, StateField, Range } from "@codemirror/state";
 import { Decoration, DecorationSet, EditorView } from "@codemirror/view";
 import { useCallback } from "react";
 
@@ -86,7 +86,7 @@ const injectField = StateField.define<DecorationSet>({
 
       if (effect.is(removeInjectEffect)) {
         const { type, content } = effect.value;
-        const filtered: any[] = [];
+        const filtered: Range<Decoration>[] = [];
 
         value.between(0, tr.state.doc.length, (from, to, decoration) => {
           const attrs = decoration.spec.attributes as
@@ -103,7 +103,6 @@ const injectField = StateField.define<DecorationSet>({
           }
         });
 
-        // Create new decoration set with filtered decorations
         value = Decoration.set(filtered);
       }
     }
