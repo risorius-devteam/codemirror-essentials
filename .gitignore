@@ -35,5 +35,5 @@ coverage/
 *.temp
 
 
-.nx/cache
-.nx/workspace-data
+# NX
+.nx/
