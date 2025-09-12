@@ -1,5 +1,5 @@
 {
-  "name": "@codemirror-essentials/example-basic",
+  "name": "@codemirror-essentials/line-widget",
   "version": "0.0.1",
   "private": true,
   "type": "module",

@@ -1,5 +1,5 @@
 {
-  "name": "@codemirror-essentials/example-highlight",
+  "name": "@codemirror-essentials/inject-class-name",
   "version": "0.0.1",
   "private": true,
   "type": "module",
