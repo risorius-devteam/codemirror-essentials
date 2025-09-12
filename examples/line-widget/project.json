@@ -1,0 +1,51 @@
+{
+  "name": "line-widget-example",
+  "root": "examples/line-widget",
+  "sourceRoot": "examples/line-widget/src",
+  "projectType": "application",
+  "tags": ["type:app", "framework:react", "scope:example"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite build",
+        "cwd": "examples/line-widget"
+      },
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true,
+      "dependsOn": ["react-codemirror:build"]
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite",
+        "cwd": "examples/line-widget"
+      },
+      "cache": false
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite preview",
+        "cwd": "examples/line-widget"
+      },
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["examples/line-widget/**/*.{ts,tsx,js,jsx}"]
+      },
+      "cache": true
+    },
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit",
+        "cwd": "examples/line-widget"
+      },
+      "cache": true
+    }
+  }
+}

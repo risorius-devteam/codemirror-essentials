@@ -4,14 +4,14 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { EditorView, EditorViewConfig } from "@codemirror/view";
+import { EditorView, EditorViewConfig, ViewUpdate } from "@codemirror/view";
 import { EditorState, Extension } from "@codemirror/state";
 
 export interface CodeMirrorProps {
   /** The initial value of the editor */
   value?: string;
   /** Called when the editor content changes */
-  onChange?: (value: string, viewUpdate: any) => void;
+  onChange?: (value: string, viewUpdate: ViewUpdate) => void;
   /** CodeMirror extensions */
   extensions?: Extension[];
   /** Editor configuration */
@@ -90,7 +90,7 @@ export const CodeMirror = forwardRef<CodeMirrorRef, CodeMirrorProps>(
         view.destroy();
         viewRef.current = null;
       };
-    }, []);
+    }, [config, editable, extensions, onChange, value]);
 
     // Update value when prop changes
     useEffect(() => {
