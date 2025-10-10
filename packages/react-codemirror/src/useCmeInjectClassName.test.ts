@@ -18,16 +18,15 @@ describe("useCmeInjectClassName", () => {
 
   describe("hook initialization", () => {
     it("should return required functions and extension", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       expect(result.current.addInject).toBeInstanceOf(Function);
       expect(result.current.removeInject).toBeInstanceOf(Function);
-      expect(result.current.setEditor).toBeInstanceOf(Function);
       expect(result.current.injectFieldExtension).toBeDefined();
     });
 
     it("should handle calls without editor gracefully", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       expect(() => {
         act(() => {
@@ -43,7 +42,7 @@ describe("useCmeInjectClassName", () => {
 
   describe("single line injection", () => {
     it("should inject className to a single line", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
@@ -55,12 +54,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 2,
           className: "highlight-line",
@@ -75,7 +74,7 @@ describe("useCmeInjectClassName", () => {
     });
 
     it("should inject className with id attribute", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -87,12 +86,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 1,
           className: "highlight",
@@ -109,7 +108,7 @@ describe("useCmeInjectClassName", () => {
 
   describe("range injection", () => {
     it("should inject className to multiple lines", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
@@ -121,12 +120,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "RANGE",
           range: { from: 2, to: 4 },
           className: "highlight-range",
@@ -140,7 +139,7 @@ describe("useCmeInjectClassName", () => {
     });
 
     it("should inject range with id attribute", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -152,12 +151,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "RANGE",
           range: { from: 1, to: 3 },
           className: "highlight",
@@ -174,7 +173,7 @@ describe("useCmeInjectClassName", () => {
 
   describe("remove injection", () => {
     it("should remove injections by className", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -186,13 +185,13 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       // Add injection
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 1,
           className: "test-highlight",
@@ -204,7 +203,7 @@ describe("useCmeInjectClassName", () => {
 
       // Remove injection
       act(() => {
-        result.current.removeInject({
+        hookWithView.current.removeInject({
           type: "className",
           content: "test-highlight",
         });
@@ -217,7 +216,7 @@ describe("useCmeInjectClassName", () => {
     });
 
     it("should remove injections by id", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -229,13 +228,13 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       // Add injection with id
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 1,
           className: "highlight",
@@ -248,7 +247,7 @@ describe("useCmeInjectClassName", () => {
 
       // Remove by id
       act(() => {
-        result.current.removeInject({
+        hookWithView.current.removeInject({
           type: "id",
           content: "unique-line",
         });
@@ -263,7 +262,7 @@ describe("useCmeInjectClassName", () => {
 
   describe("edge cases", () => {
     it("should ignore invalid line numbers", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -275,12 +274,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 0, // Invalid: line numbers start at 1
           className: "test-class",
@@ -294,7 +293,7 @@ describe("useCmeInjectClassName", () => {
     });
 
     it("should ignore out of range line numbers", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3",
@@ -306,12 +305,12 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "RANGE",
           range: { from: -1, to: 100 }, // Out of range
           className: "test-class",
@@ -327,7 +326,7 @@ describe("useCmeInjectClassName", () => {
 
   describe("multiple injections", () => {
     it("should handle multiple injections with different classNames", () => {
-      const { result } = renderHook(() => useCmeInjectClassName());
+      const { result } = renderHook(() => useCmeInjectClassName(null));
 
       const state = EditorState.create({
         doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
@@ -339,24 +338,24 @@ describe("useCmeInjectClassName", () => {
         parent: container,
       });
 
-      act(() => {
-        result.current.setEditor(view);
-      });
+      const { result: hookWithView } = renderHook(() =>
+        useCmeInjectClassName(view)
+      );
 
       act(() => {
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 1,
           className: "class-1",
         });
 
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "SINGLE",
           singleLineNumber: 2,
           className: "class-2",
         });
 
-        result.current.addInject({
+        hookWithView.current.addInject({
           type: "RANGE",
           range: { from: 3, to: 4 },
           className: "class-3",

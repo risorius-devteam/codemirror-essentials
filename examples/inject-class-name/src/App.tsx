@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { javascript } from "@codemirror/lang-javascript";
 import {
   InjectEffectType,
   useCmeInjectClassName,
 } from "@codemirror-essentials/react";
 import CodeMirror from "@uiw/react-codemirror";
+import { EditorView } from "@codemirror/view";
 
 const initialCode = `function greet(name) {
   return \`Hello, \${name}!\`
@@ -18,9 +19,10 @@ function App() {
   const [type, setType] = useState<InjectEffectType>("RANGE");
   const [from, setFrom] = useState<number>(1);
   const [to, setTo] = useState<number>(1);
+  const ref = useRef<EditorView | null>(null);
 
-  const { addInject, removeInject, injectFieldExtension, setEditor } =
-    useCmeInjectClassName();
+  const { addInject, removeInject, injectFieldExtension } =
+    useCmeInjectClassName(ref.current);
 
   useEffect(() => {
     console.log("from : ", from);
@@ -110,7 +112,7 @@ function App() {
         }}
       >
         <CodeMirror
-          onCreateEditor={(view) => setEditor(view)}
+          onCreateEditor={(view) => (ref.current = view)}
           value={code}
           onChange={(value) => setCode(value)}
           extensions={[javascript(), injectFieldExtension]}

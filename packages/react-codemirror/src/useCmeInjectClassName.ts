@@ -1,6 +1,6 @@
 import { StateEffect, StateField, Range } from "@codemirror/state";
 import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
-import { useRef } from "react";
+import { useCallback } from "react";
 
 export type InjectEffectType = "RANGE" | "SINGLE";
 
@@ -115,34 +115,32 @@ const injectField = StateField.define<DecorationSet>({
   provide: (f) => EditorView.decorations.from(f),
 });
 
-export const useCmeInjectClassName = () => {
-  const editor = useRef<EditorView | null>(null);
+export const useCmeInjectClassName = (view: EditorView | null) => {
+  const addInject = useCallback(
+    (spec: InjectEffectSpec) => {
+      if (!view) return;
 
-  const addInject = (spec: InjectEffectSpec) => {
-    console.log("Editor : ", editor);
-    if (!editor.current) return;
+      view.dispatch({
+        effects: addInjectEffect.of(spec),
+      });
+    },
+    [view]
+  );
 
-    editor.current.dispatch({
-      effects: addInjectEffect.of(spec),
-    });
-  };
+  const removeInject = useCallback(
+    (spec: RemoveInjectEffectSepc) => {
+      if (!view) return;
 
-  const removeInject = (spec: RemoveInjectEffectSepc) => {
-    if (!editor.current) return;
-
-    editor.current.dispatch({
-      effects: removeInjectEffect.of(spec),
-    });
-  };
-
-  const setEditor = (view: EditorView | null) => {
-    editor.current = view;
-  };
+      view.dispatch({
+        effects: removeInjectEffect.of(spec),
+      });
+    },
+    [view]
+  );
 
   return {
     addInject,
     removeInject,
-    setEditor,
     injectFieldExtension: injectField,
   };
 };
