@@ -237,10 +237,11 @@ export const useCmeDiff = (view: EditorView | null) => {
       });
 
       // 10. diffOption Component 추가 (Accept / Reject)
+      // isBlock: false로 설정하여 라인 삭제 시에도 유지
       addLineWidget({
         lineNumber: endLine,
         above: false,
-        isBlock: true,
+        isBlock: false,
         id: `cme-diff-option-${id}`,
         component: diffOptionComponent,
       });
