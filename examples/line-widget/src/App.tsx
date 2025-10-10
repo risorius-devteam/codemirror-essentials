@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { CodeMirror, useCmeLineWidget } from "@codemirror-essentials/react";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";

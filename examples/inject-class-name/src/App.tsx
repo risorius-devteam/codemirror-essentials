@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { EditorView } from "@codemirror/view";
+import { useEffect, useState } from "react";
 import { javascript } from "@codemirror/lang-javascript";
 import {
-  CodeMirror,
+  InjectEffectType,
   useCmeInjectClassName,
 } from "@codemirror-essentials/react";
+import CodeMirror from "@uiw/react-codemirror";
 
 const initialCode = `function greet(name) {
   return \`Hello, \${name}!\`
@@ -15,22 +15,22 @@ console.log(message)`;
 
 function App() {
   const [code, setCode] = useState(initialCode);
-  const viewRef = useRef<EditorView | null>(null);
-  const [type, setType] = useState<"range" | "single">("range");
+  const [type, setType] = useState<InjectEffectType>("RANGE");
   const [from, setFrom] = useState<number>(1);
   const [to, setTo] = useState<number>(1);
 
-  useEffect(() => {
-    console.log("to : ", to);
-  }, [to]);
+  const { addInject, removeInject, injectFieldExtension, setEditor } =
+    useCmeInjectClassName();
 
-  const { addInject, removeInject, injectFieldExtension } =
-    useCmeInjectClassName(viewRef.current);
+  useEffect(() => {
+    console.log("from : ", from);
+    console.log("to : ", to);
+  }, [from, to]);
 
   const handleHighLight = () => {
-    if (type === "range") {
+    if (type === "RANGE") {
       addInject({
-        type: "range",
+        type: "RANGE",
         range: {
           from,
           to,
@@ -39,28 +39,23 @@ function App() {
       });
     }
 
-    if (type === "single") {
+    if (type === "SINGLE") {
       addInject({
-        type: "single",
+        type: "SINGLE",
         singleLineNumber: from,
         className: "Inject-Single-HighLight-Test",
       });
     }
   };
 
-  const handleRemoveHighlight = (type: "Range" | "Single") => {
-    //       interface RemoveInjectEffectSepc {
-    //     type: "className" | "id";
-    //     content: string;
-    // }
-
-    if (type === "Range")
+  const handleRemoveHighlight = (type: "RANGE" | "SINGLE") => {
+    if (type === "RANGE")
       removeInject({
         type: "className",
         content: "Inject-Range-HighLight-Test",
       });
 
-    if (type === "Single")
+    if (type === "SINGLE")
       removeInject({
         type: "className",
         content: "Inject-Single-HighLight-Test",
@@ -72,19 +67,19 @@ function App() {
       <h1>CodeMirror Essentials - Line Widget Example</h1>
       <button
         onClick={() =>
-          setType((prev) => (prev === "range" ? "single" : "range"))
+          setType((prev) => (prev === "RANGE" ? "SINGLE" : "RANGE"))
         }
       >
         Type 토글 : ${type}
       </button>
       <section>
-        <label>{type === "range" ? "From" : "Target"} : </label>
+        <label>{type === "RANGE" ? "From" : "Target"} : </label>
         <input
           type="number"
           value={from}
           onChange={(e) => setFrom(parseInt(e.target.value))}
         />
-        {type === "range" && (
+        {type === "RANGE" && (
           <>
             <label>To : </label>
             <input
@@ -98,10 +93,10 @@ function App() {
 
       <section>
         <button onClick={handleHighLight}>하이라이팅 버튼</button>
-        <button onClick={() => handleRemoveHighlight("Single")}>
+        <button onClick={() => handleRemoveHighlight("SINGLE")}>
           단일 하이라이팅 제거 버튼
         </button>
-        <button onClick={() => handleRemoveHighlight("Range")}>
+        <button onClick={() => handleRemoveHighlight("RANGE")}>
           범위 하이라이팅 제거 버튼
         </button>
       </section>
@@ -115,9 +110,7 @@ function App() {
         }}
       >
         <CodeMirror
-          ref={(view) => {
-            if (view) viewRef.current = view.getView();
-          }}
+          onCreateEditor={(view) => setEditor(view)}
           value={code}
           onChange={(value) => setCode(value)}
           extensions={[javascript(), injectFieldExtension]}

@@ -1,306 +1,372 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import { useCmeInjectClassName } from "./useCmeInjectClassName";
 
 describe("useCmeInjectClassName", () => {
-  let mockView: EditorView;
-  let mockDispatch: ReturnType<typeof vi.fn>;
+  let container: HTMLDivElement;
 
   beforeEach(() => {
-    mockDispatch = vi.fn();
+    container = document.createElement("div");
+    document.body.appendChild(container);
+  });
 
-    const state = EditorState.create({
-      doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
-    });
-
-    mockView = {
-      state,
-      dispatch: mockDispatch,
-    } as unknown as EditorView;
+  afterEach(() => {
+    document.body.removeChild(container);
   });
 
   describe("hook initialization", () => {
-    it("should return addInject, removeInject functions and injectFieldExtension", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should return required functions and extension", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
 
       expect(result.current.addInject).toBeInstanceOf(Function);
       expect(result.current.removeInject).toBeInstanceOf(Function);
+      expect(result.current.setEditor).toBeInstanceOf(Function);
       expect(result.current.injectFieldExtension).toBeDefined();
     });
 
-    it("should handle null view gracefully", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(null));
+    it("should handle calls without editor gracefully", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
 
       expect(() => {
         act(() => {
           result.current.addInject({
-            type: "single",
+            type: "SINGLE",
             singleLineNumber: 1,
             className: "test-class",
           });
         });
       }).not.toThrow();
-
-      expect(mockDispatch).not.toHaveBeenCalled();
     });
   });
 
-  describe("addInject", () => {
-    it("should dispatch effect for single line injection", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+  describe("single line injection", () => {
+    it("should inject className to a single line", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "single",
+          type: "SINGLE",
           singleLineNumber: 2,
           className: "highlight-line",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "single",
-        singleLineNumber: 2,
-        className: "highlight-line",
-      });
+      // Verify decoration was applied
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
+
+      view.destroy();
     });
 
-    it("should dispatch effect for single line injection with id", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should inject className with id attribute", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "single",
-          singleLineNumber: 3,
-          className: "highlight-line",
-          id: "line-3",
+          type: "SINGLE",
+          singleLineNumber: 1,
+          className: "highlight",
+          id: "line-1",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "single",
-        singleLineNumber: 3,
-        className: "highlight-line",
-        id: "line-3",
-      });
-    });
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
 
-    it("should dispatch effect for range injection", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+      view.destroy();
+    });
+  });
+
+  describe("range injection", () => {
+    it("should inject className to multiple lines", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "range",
+          type: "RANGE",
           range: { from: 2, to: 4 },
           className: "highlight-range",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "range",
-        range: { from: 2, to: 4 },
-        className: "highlight-range",
-      });
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
+
+      view.destroy();
     });
 
-    it("should dispatch effect for range injection with id", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should inject range with id attribute", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "range",
+          type: "RANGE",
           range: { from: 1, to: 3 },
-          className: "highlight-range",
+          className: "highlight",
           id: "range-1-3",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "range",
-        range: { from: 1, to: 3 },
-        className: "highlight-range",
-        id: "range-1-3",
-      });
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
+
+      view.destroy();
     });
   });
 
-  describe("removeInject", () => {
-    it("should dispatch effect to remove by className", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+  describe("remove injection", () => {
+    it("should remove injections by className", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
 
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
+
+      // Add injection
+      act(() => {
+        result.current.addInject({
+          type: "SINGLE",
+          singleLineNumber: 1,
+          className: "test-highlight",
+        });
+      });
+
+      let decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
+
+      // Remove injection
       act(() => {
         result.current.removeInject({
           type: "className",
-          content: "highlight-line",
+          content: "test-highlight",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "className",
-        content: "highlight-line",
-      });
+      decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBe(0);
+
+      view.destroy();
     });
 
-    it("should dispatch effect to remove by id", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should remove injections by id", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
 
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
+
+      // Add injection with id
+      act(() => {
+        result.current.addInject({
+          type: "SINGLE",
+          singleLineNumber: 1,
+          className: "highlight",
+          id: "unique-line",
+        });
+      });
+
+      let decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
+
+      // Remove by id
       act(() => {
         result.current.removeInject({
           type: "id",
-          content: "line-3",
+          content: "unique-line",
         });
       });
 
-      const call = mockDispatch.mock.calls[0][0];
-      expect(call).toHaveProperty("effects");
-      expect(call.effects.value).toEqual({
-        type: "id",
-        content: "line-3",
-      });
+      decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBe(0);
+
+      view.destroy();
     });
   });
 
   describe("edge cases", () => {
-    it("should handle invalid line numbers for single line", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should ignore invalid line numbers", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "single",
-          singleLineNumber: 0,
+          type: "SINGLE",
+          singleLineNumber: 0, // Invalid: line numbers start at 1
           className: "test-class",
         });
       });
 
-      expect(mockDispatch).toHaveBeenCalled();
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBe(0);
+
+      view.destroy();
     });
 
-    it("should handle invalid line numbers for range", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
+    it("should ignore out of range line numbers", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
+
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3",
+        extensions: [result.current.injectFieldExtension],
+      });
+
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
+
+      act(() => {
+        result.current.setEditor(view);
+      });
 
       act(() => {
         result.current.addInject({
-          type: "range",
-          range: { from: -1, to: 100 },
+          type: "RANGE",
+          range: { from: -1, to: 100 }, // Out of range
           className: "test-class",
         });
       });
 
-      expect(mockDispatch).toHaveBeenCalled();
-    });
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBe(0);
 
-    it("should handle missing range for range type", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
-
-      act(() => {
-        result.current.addInject({
-          type: "range",
-          // range is missing
-          className: "test-class",
-        } as Parameters<typeof result.current.addInject>[0]);
-      });
-
-      expect(mockDispatch).toHaveBeenCalled();
-    });
-
-    it("should handle missing singleLineNumber for single type", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
-
-      act(() => {
-        result.current.addInject({
-          type: "single",
-          // singleLineNumber is missing
-          className: "test-class",
-        } as Parameters<typeof result.current.addInject>[0]);
-      });
-
-      expect(mockDispatch).toHaveBeenCalled();
+      view.destroy();
     });
   });
 
-  describe("view updates", () => {
-    it("should update callbacks when view changes", () => {
-      const { result, rerender } = renderHook(
-        ({ view }) => useCmeInjectClassName(view),
-        {
-          initialProps: { view: mockView },
-        }
-      );
+  describe("multiple injections", () => {
+    it("should handle multiple injections with different classNames", () => {
+      const { result } = renderHook(() => useCmeInjectClassName());
 
-      const initialAddInject = result.current.addInject;
-      const initialRemoveInject = result.current.removeInject;
+      const state = EditorState.create({
+        doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
+        extensions: [result.current.injectFieldExtension],
+      });
 
-      const newMockView = {
-        state: EditorState.create({ doc: "New content" }),
-        dispatch: vi.fn(),
-      } as unknown as EditorView;
+      const view = new EditorView({
+        state,
+        parent: container,
+      });
 
-      rerender({ view: newMockView });
+      act(() => {
+        result.current.setEditor(view);
+      });
 
-      expect(result.current.addInject).not.toBe(initialAddInject);
-      expect(result.current.removeInject).not.toBe(initialRemoveInject);
-    });
-  });
-
-  describe("extension integration", () => {
-    it("should return a valid StateField extension", () => {
-      const { result } = renderHook(() => useCmeInjectClassName(mockView));
-
-      expect(result.current.injectFieldExtension).toBeDefined();
-      expect(typeof result.current.injectFieldExtension).toBe("object");
-    });
-
-    it("should work with real EditorView when extension is applied", () => {
-      const container = document.createElement("div");
-      document.body.appendChild(container);
-
-      try {
-        const { result } = renderHook(() => useCmeInjectClassName(null));
-
-        const state = EditorState.create({
-          doc: "Line 1\nLine 2\nLine 3\nLine 4\nLine 5",
-          extensions: [result.current.injectFieldExtension],
+      act(() => {
+        result.current.addInject({
+          type: "SINGLE",
+          singleLineNumber: 1,
+          className: "class-1",
         });
 
-        const realView = new EditorView({
-          state,
-          parent: container,
+        result.current.addInject({
+          type: "SINGLE",
+          singleLineNumber: 2,
+          className: "class-2",
         });
 
-        const { result: realResult } = renderHook(() =>
-          useCmeInjectClassName(realView)
-        );
+        result.current.addInject({
+          type: "RANGE",
+          range: { from: 3, to: 4 },
+          className: "class-3",
+        });
+      });
 
-        expect(() => {
-          realResult.current.addInject({
-            type: "single",
-            singleLineNumber: 1,
-            className: "test-class",
-          });
-        }).not.toThrow();
+      const decorations = view.state.field(result.current.injectFieldExtension);
+      expect(decorations.size).toBeGreaterThan(0);
 
-        expect(() => {
-          realResult.current.removeInject({
-            type: "className",
-            content: "test-class",
-          });
-        }).not.toThrow();
-
-        realView.destroy();
-      } finally {
-        document.body.removeChild(container);
-      }
+      view.destroy();
     });
   });
 });

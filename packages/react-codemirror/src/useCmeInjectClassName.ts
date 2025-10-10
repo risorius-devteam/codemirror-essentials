@@ -1,9 +1,11 @@
 import { StateEffect, StateField, Range } from "@codemirror/state";
-import { Decoration, DecorationSet, EditorView } from "@codemirror/view";
-import { useCallback } from "react";
+import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
+import { useRef } from "react";
+
+export type InjectEffectType = "RANGE" | "SINGLE";
 
 interface InjectEffectSpec {
-  type: "range" | "single";
+  type: InjectEffectType;
   range?: {
     from: number;
     to: number;
@@ -43,7 +45,7 @@ const injectField = StateField.define<DecorationSet>({
           return from >= 1 && from <= totalLines && to >= 1 && to <= totalLines;
         };
 
-        if (type === "range" && range) {
+        if (type === "RANGE" && range) {
           const startLine = range.from;
           const endLine = range.to;
 
@@ -67,7 +69,7 @@ const injectField = StateField.define<DecorationSet>({
         }
 
         if (
-          type === "single" &&
+          type === "SINGLE" &&
           singleLineNumber &&
           singleLineNumber >= 1 &&
           singleLineNumber <= totalLines
@@ -113,32 +115,34 @@ const injectField = StateField.define<DecorationSet>({
   provide: (f) => EditorView.decorations.from(f),
 });
 
-export const useCmeInjectClassName = (view: EditorView | null) => {
-  const addInject = useCallback(
-    (spec: InjectEffectSpec) => {
-      if (!view) return;
+export const useCmeInjectClassName = () => {
+  const editor = useRef<EditorView | null>(null);
 
-      view.dispatch({
-        effects: addInjectEffect.of(spec),
-      });
-    },
-    [view]
-  );
+  const addInject = (spec: InjectEffectSpec) => {
+    console.log("Editor : ", editor);
+    if (!editor.current) return;
 
-  const removeInject = useCallback(
-    (spec: RemoveInjectEffectSepc) => {
-      if (!view) return;
+    editor.current.dispatch({
+      effects: addInjectEffect.of(spec),
+    });
+  };
 
-      view.dispatch({
-        effects: removeInjectEffect.of(spec),
-      });
-    },
-    [view]
-  );
+  const removeInject = (spec: RemoveInjectEffectSepc) => {
+    if (!editor.current) return;
+
+    editor.current.dispatch({
+      effects: removeInjectEffect.of(spec),
+    });
+  };
+
+  const setEditor = (view: EditorView | null) => {
+    editor.current = view;
+  };
 
   return {
     addInject,
     removeInject,
+    setEditor,
     injectFieldExtension: injectField,
   };
 };
