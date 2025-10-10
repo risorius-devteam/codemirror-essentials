@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
-import { CodeMirror, useCmeLineWidget } from "@codemirror-essentials/react";
+import { useCmeLineWidget } from "@codemirror-essentials/react";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
+import CodeMirror from "@uiw/react-codemirror";
 
 const initialCode = `function greet(name) {
   return \`Hello, \${name}!\`
@@ -65,6 +66,7 @@ function App() {
     const id = `widget-above-${Date.now()}`;
     addLineWidget({
       lineNumber,
+      above: true,
       component: (
         <MyCustomWidget
           text="텍스트"
@@ -133,9 +135,7 @@ function App() {
         }}
       >
         <CodeMirror
-          ref={(view) => {
-            if (view) viewRef.current = view.getView();
-          }}
+          onCreateEditor={(view) => (viewRef.current = view)}
           value={code}
           onChange={(value) => setCode(value)}
           extensions={[javascript(), lineWidgetExtension]}

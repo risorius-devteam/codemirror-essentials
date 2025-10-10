@@ -1,9 +1,11 @@
 import { StateEffect, StateField, Range } from "@codemirror/state";
-import { Decoration, DecorationSet, EditorView } from "@codemirror/view";
+import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
 import { useCallback } from "react";
 
+export type InjectEffectType = "RANGE" | "SINGLE";
+
 interface InjectEffectSpec {
-  type: "range" | "single";
+  type: InjectEffectType;
   range?: {
     from: number;
     to: number;
@@ -43,7 +45,7 @@ const injectField = StateField.define<DecorationSet>({
           return from >= 1 && from <= totalLines && to >= 1 && to <= totalLines;
         };
 
-        if (type === "range" && range) {
+        if (type === "RANGE" && range) {
           const startLine = range.from;
           const endLine = range.to;
 
@@ -67,7 +69,7 @@ const injectField = StateField.define<DecorationSet>({
         }
 
         if (
-          type === "single" &&
+          type === "SINGLE" &&
           singleLineNumber &&
           singleLineNumber >= 1 &&
           singleLineNumber <= totalLines
