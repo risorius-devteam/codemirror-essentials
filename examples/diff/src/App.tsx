@@ -25,6 +25,7 @@ function App() {
     removeDiffRedRange,
     diffWidgetExtension,
     injectFieldExtension,
+    lineWidgetExtension,
   } = useCmeDiff(ref.current);
 
   const handle = () => {
@@ -37,6 +38,7 @@ function App() {
       greenRangeTargetText: greenTargetText,
       id: "10",
       above: true,
+      diffOptionComponent: <div>Accpet</div>,
     });
   };
 
@@ -70,7 +72,12 @@ function App() {
           onCreateEditor={(view) => (ref.current = view)}
           value={code}
           onChange={(value) => setCode(value)}
-          extensions={[javascript(), diffWidgetExtension, injectFieldExtension]}
+          extensions={[
+            javascript(),
+            diffWidgetExtension,
+            injectFieldExtension,
+            lineWidgetExtension,
+          ]}
           className="editor"
           height="400px"
         />

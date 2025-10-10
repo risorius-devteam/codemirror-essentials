@@ -5,11 +5,8 @@ import {
   DecorationSet,
   WidgetType,
 } from "@codemirror/view";
-import { ReactNode, useCallback } from "react";
-import {
-  InjectEffectSpec,
-  useCmeInjectClassName,
-} from "./useCmeInjectClassName";
+import { ReactElement, useCallback } from "react";
+import { useCmeInjectClassName } from "./useCmeInjectClassName";
 import { useCmeLineWidget } from "./useCmeLineWidget";
 
 export interface DiffWidgetSpec {
@@ -68,7 +65,7 @@ const diffHighlightField = StateField.define<DecorationSet>({
 
         // 삭제될 텍스트를 block widget으로 표시 (빨간색, 새 줄)
         if (
-          redRange.from >= 1 &&
+          redRange.from >= 0 && // position은 0부터 시작
           redRange.from <= tr.state.doc.length &&
           targetText
         ) {
@@ -142,12 +139,14 @@ export const useCmeDiff = (view: EditorView | null) => {
       greenRangeTargetText,
       id,
       above = true,
+      diffOptionComponent,
     }: {
       redRange: { from: number; to: number };
       redRangeTargetText?: string;
       greenRangeTargetText: string;
       id: string;
       above?: boolean;
+      diffOptionComponent: ReactElement;
     }) => {
       if (!view) return;
 
@@ -177,7 +176,18 @@ export const useCmeDiff = (view: EditorView | null) => {
       // 5. green text의 길이 계산
       const greenTextLength = greenTextWithNewline.length;
 
-      // 6. 한 번의 dispatch에 changes + effects 모두 적용
+      // 6. red widget position 계산
+      // above=true: insertPosition에 side=-1 → green 위
+      // above=false: insertPosition + greenTextLength에 side=1 → green 아래
+
+      console.log("insertPosition : ", insertPosition);
+      const redWidgetPosition = above
+        ? insertPosition
+        : insertPosition + greenTextLength;
+
+      console.log("redWidgetPosition : ", redWidgetPosition);
+
+      // 7. 한 번의 dispatch에 changes + effects 모두 적용
       // redRange(from~to 라인)의 텍스트를 삭제하고 greenText로 replace
       view.dispatch({
         changes: {
@@ -186,12 +196,11 @@ export const useCmeDiff = (view: EditorView | null) => {
           insert: greenTextWithNewline,
         },
         effects: [
-          // redRange block widget 추가 (replace 후의 position)
-          // widget은 green text 바로 뒤에 위치
+          // redRange block widget 추가
           addDiffHighlight.of({
             redRange: {
-              from: insertPosition + greenTextLength,
-              to: insertPosition + greenTextLength, // widget이므로 point position
+              from: redWidgetPosition,
+              to: redWidgetPosition, // widget이므로 point position
             },
             targetText: actualRedText,
             id,
@@ -200,7 +209,7 @@ export const useCmeDiff = (view: EditorView | null) => {
         ],
       });
 
-      // 7. 삽입된 텍스트의 라인 범위 계산
+      // 8. 삽입된 텍스트의 라인 범위 계산
       // greenTextWithNewline은 항상 \n으로 끝나므로 split 결과 마지막은 빈 문자열
       const lines = greenTextWithNewline.split("\n");
       const lineCount = lines.length - 1; // 마지막 빈 문자열 제외
@@ -216,7 +225,7 @@ export const useCmeDiff = (view: EditorView | null) => {
       console.log("lineCount:", lineCount);
       console.log("green decoration:", startLine, "~", endLine);
 
-      // 8. 삽입된 라인들에 초록색 decoration 추가
+      // 9. 삽입된 라인들에 초록색 decoration 추가
       addInject({
         type: "RANGE",
         range: {
@@ -226,8 +235,17 @@ export const useCmeDiff = (view: EditorView | null) => {
         className: "cm-diff-green-range",
         id,
       });
+
+      // 10. diffOption Component 추가 (Accept / Reject)
+      addLineWidget({
+        lineNumber: endLine,
+        above: false,
+        isBlock: true,
+        id: `cme-diff-option-${id}`,
+        component: diffOptionComponent,
+      });
     },
-    [view, addInject]
+    [view, addInject, addLineWidget]
   );
 
   return {
