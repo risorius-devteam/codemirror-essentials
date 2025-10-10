@@ -4,7 +4,7 @@ import { useCallback } from "react";
 
 export type InjectEffectType = "RANGE" | "SINGLE";
 
-interface InjectEffectSpec {
+export interface InjectEffectSpec {
   type: InjectEffectType;
   range?: {
     from: number;

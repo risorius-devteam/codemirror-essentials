@@ -12,7 +12,7 @@ interface ReactContainerWithRoot extends HTMLElement {
   __reactRoot?: Root;
 }
 
-interface LineWidgetSpec {
+export interface LineWidgetSpec {
   lineNumber: number;
   component: React.ReactElement;
   id: string;
