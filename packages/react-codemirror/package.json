@@ -1,7 +1,8 @@
 {
-  "name": "@codemirror-essentials/react",
+  "name": "@sung-yeop/codemirror-essentials-react",
   "version": "0.0.1",
   "description": "React wrapper for CodeMirror 6",
+  "author": "sung-yeop",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -31,6 +32,16 @@
     "editor",
     "code-editor"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/risorius-devteam/codemirror-essentials.git",
+    "directory": "packages/react-codemirror"
+  },
+  "homepage": "https://github.com/risorius-devteam/codemirror-essentials#readme",
+  "bugs": {
+    "url": "https://github.com/risorius-devteam/codemirror-essentials/issues"
+  },
+  "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"

@@ -12,7 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@codemirror-essentials/react": "workspace:*",
+    "@sung-yeop/codemirror-essentials-react": "workspace:*",
     "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/state": "^6.4.0",
     "@codemirror/view": "^6.23.0",

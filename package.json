@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "build:lib": "turbo build --filter=react-codemirror",
+    "build:lib": "turbo build --filter=@sung-yeop/codemirror-essentials-react",
     "build:examples": "turbo build --filter='./examples/*'",
     "dev": "turbo dev",
     "dev:line-widget": "turbo dev --filter=@codemirror-essentials/line-widget",
@@ -31,7 +31,7 @@
     "format:check": "prettier --check .",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "turbo build --filter=react-codemirror && changeset publish"
+    "release": "turbo build --filter=@sung-yeop/codemirror-essentials-react && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useCmeLineWidget } from "@codemirror-essentials/react";
+import { useCmeLineWidget } from "@sung-yeop/codemirror-essentials-react";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";

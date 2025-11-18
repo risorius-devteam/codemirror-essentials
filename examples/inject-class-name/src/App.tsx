@@ -3,7 +3,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import {
   InjectEffectType,
   useCmeInjectClassName,
-} from "@codemirror-essentials/react";
+} from "@sung-yeop/codemirror-essentials-react";
 import CodeMirror from "@uiw/react-codemirror";
 import { EditorView } from "@codemirror/view";
 
