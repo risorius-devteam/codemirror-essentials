@@ -17,6 +17,7 @@
     "dev:line-widget": "turbo dev --filter=@codemirror-essentials/line-widget",
     "dev:inject-class": "turbo dev --filter=@codemirror-essentials/inject-class-name",
     "dev:selection": "turbo dev --filter=@codemirror-essentials/selection",
+    "dev:line-replace": "turbo dev --filter=@codemirror-essentials/line-replace",
     "clean": "turbo clean && rm -rf node_modules",
     "test": "pnpm run test:ci",
     "test:ci": "pnpm run test:eslint && pnpm run test:lib && pnpm run test:types && pnpm run test:build",
