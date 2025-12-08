@@ -49,6 +49,10 @@ interface ReviewMetadata {
   insertedTo: number;
   rangeClassName?: string;
   improvedClassName?: string;
+  // Original line numbers (before any modifications) for offset calculation
+  originalFromLine?: number;
+  originalToLine?: number;
+  improvedLineCount?: number;
 }
 
 const addReviewMetadataEffect = StateEffect.define<ReviewMetadata>();
@@ -243,7 +247,7 @@ const reviewField = StateField.define<{
 export const useCmeLineReplace = (view: EditorView | null) => {
   /**
    * Add a review with actual text insertion
-   * Automatically adjusts positions based on existing reviews that come before it
+   * Uses LINE NUMBERS (fromLine, toLine) for positioning, automatically handles offset from previous reviews
    */
   const addReview = useCallback(
     (review: ReviewInterface) => {
@@ -259,38 +263,50 @@ export const useCmeLineReplace = (view: EditorView | null) => {
 
       const doc = view.state.doc;
 
-      // Get existing reviews to calculate offset from previous insertions
+      // Get existing reviews to calculate LINE OFFSET from previous insertions
       const existingMetadata = view.state.field(reviewField).metadata;
 
-      // Calculate total offset from reviews that were inserted BEFORE this range
-      // A review affects positions after its insertion point (toLine)
-      let offsetFromPreviousReviews = 0;
+      // Calculate line offset: how many extra lines were added by previous reviews
+      // that come BEFORE this review's position
+      let lineOffset = 0;
       for (const meta of existingMetadata) {
-        // Get the original toLine of the existing review
-        // The insertion was made at the end of toLine, so anything after that is shifted
-        const existingInsertedLength = meta.insertedTo - meta.insertedFrom + 1; // +1 for newline
+        // Find the original toLine of existing review by looking at where it was inserted
+        // meta.originalToLine stores the original line number before any modifications
+        const existingOriginalToLine = meta.originalToLine ?? 0;
 
-        // If this review's range starts after where previous review was inserted
-        // we need to account for the inserted text
-        if (range.from >= meta.rangeTo) {
-          offsetFromPreviousReviews += existingInsertedLength;
+        // If this review's fromLine is after the existing review's original position,
+        // we need to account for the lines that were inserted
+        if (existingOriginalToLine > 0 && range.fromLine > existingOriginalToLine) {
+          // Use stored improvedLineCount for accurate offset calculation
+          const improvedLineCount = meta.improvedLineCount ?? 0;
+
+          // The offset is the number of improved lines that were inserted
+          lineOffset += improvedLineCount;
         }
       }
 
-      // Adjust positions based on offset
-      const adjustedFrom = range.from + offsetFromPreviousReviews;
-      const adjustedTo = range.to + offsetFromPreviousReviews;
+      // Adjust line numbers based on offset
+      const adjustedFromLine = range.fromLine + lineOffset;
+      const adjustedToLine = range.toLine + lineOffset;
 
-      // Get the line object for toLine (use adjusted position to find correct line)
-      const adjustedToLine = doc.lineAt(adjustedTo).number;
-      const toLineObj = doc.line(adjustedToLine);
+      // Clamp to valid line numbers
+      const clampedFromLine = Math.max(1, Math.min(adjustedFromLine, doc.lines));
+      const clampedToLine = Math.max(1, Math.min(adjustedToLine, doc.lines));
+
+      // Get character positions from line numbers
+      const fromLineObj = doc.line(clampedFromLine);
+      const toLineObj = doc.line(clampedToLine);
+
+      const rangeFrom = fromLineObj.from;
+      const rangeTo = toLineObj.to;
       const insertPos = toLineObj.to;
 
-      // Extract original text for the widget (using adjusted positions)
-      const originalText = doc.sliceString(adjustedFrom, adjustedTo);
+      // Extract original text for the widget
+      const originalText = doc.sliceString(rangeFrom, rangeTo);
 
       // Prepare the text to insert (newline + improved text)
       const textToInsert = "\n" + improvedText;
+      const improvedLineCount = improvedText.split("\n").length;
 
       // Calculate positions for metadata
       const insertedFrom = insertPos + 1; // +1 for the newline
@@ -302,16 +318,20 @@ export const useCmeLineReplace = (view: EditorView | null) => {
         insert: textToInsert,
       };
 
-      // Create metadata (store adjusted positions)
+      // Create metadata (store both original and adjusted positions)
       const metadata: ReviewMetadata = {
         id,
-        rangeFrom: adjustedFrom,
-        rangeTo: adjustedTo,
+        rangeFrom,
+        rangeTo,
         originalText,
         insertedFrom,
         insertedTo,
         rangeClassName,
         improvedClassName,
+        // Store original line numbers for offset calculation
+        originalFromLine: range.fromLine,
+        originalToLine: range.toLine,
+        improvedLineCount,
       };
 
       // Dispatch with both changes and effects
