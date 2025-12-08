@@ -243,6 +243,7 @@ const reviewField = StateField.define<{
 export const useCmeLineReplace = (view: EditorView | null) => {
   /**
    * Add a review with actual text insertion
+   * Automatically adjusts positions based on existing reviews that come before it
    */
   const addReview = useCallback(
     (review: ReviewInterface) => {
@@ -256,13 +257,37 @@ export const useCmeLineReplace = (view: EditorView | null) => {
         id = `review-${Date.now()}`,
       } = review;
 
-      // Get the line object for toLine
       const doc = view.state.doc;
-      const toLineObj = doc.line(range.toLine);
+
+      // Get existing reviews to calculate offset from previous insertions
+      const existingMetadata = view.state.field(reviewField).metadata;
+
+      // Calculate total offset from reviews that were inserted BEFORE this range
+      // A review affects positions after its insertion point (toLine)
+      let offsetFromPreviousReviews = 0;
+      for (const meta of existingMetadata) {
+        // Get the original toLine of the existing review
+        // The insertion was made at the end of toLine, so anything after that is shifted
+        const existingInsertedLength = meta.insertedTo - meta.insertedFrom + 1; // +1 for newline
+
+        // If this review's range starts after where previous review was inserted
+        // we need to account for the inserted text
+        if (range.from >= meta.rangeTo) {
+          offsetFromPreviousReviews += existingInsertedLength;
+        }
+      }
+
+      // Adjust positions based on offset
+      const adjustedFrom = range.from + offsetFromPreviousReviews;
+      const adjustedTo = range.to + offsetFromPreviousReviews;
+
+      // Get the line object for toLine (use adjusted position to find correct line)
+      const adjustedToLine = doc.lineAt(adjustedTo).number;
+      const toLineObj = doc.line(adjustedToLine);
       const insertPos = toLineObj.to;
 
-      // Extract original text for the widget
-      const originalText = doc.sliceString(range.from, range.to);
+      // Extract original text for the widget (using adjusted positions)
+      const originalText = doc.sliceString(adjustedFrom, adjustedTo);
 
       // Prepare the text to insert (newline + improved text)
       const textToInsert = "\n" + improvedText;
@@ -277,11 +302,11 @@ export const useCmeLineReplace = (view: EditorView | null) => {
         insert: textToInsert,
       };
 
-      // Create metadata
+      // Create metadata (store adjusted positions)
       const metadata: ReviewMetadata = {
         id,
-        rangeFrom: range.from,
-        rangeTo: range.to,
+        rangeFrom: adjustedFrom,
+        rangeTo: adjustedTo,
         originalText,
         insertedFrom,
         insertedTo,
