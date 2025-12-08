@@ -76,7 +76,7 @@ class OriginalCodeWidget extends WidgetType {
       container.className = this.className;
     }
     container.setAttribute("data-review-id", this.id);
-    container.style.whiteSpace = "pre";
+    container.style.whiteSpace = "pre-wrap";
 
     // Split by lines and render each line
     const lines = this.code.split("\n");
