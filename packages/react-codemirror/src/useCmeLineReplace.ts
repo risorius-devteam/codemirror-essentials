@@ -385,11 +385,69 @@ export const useCmeLineReplace = (view: EditorView | null) => {
     });
   }, [view]);
 
+  /**
+   * Get review metadata by ID
+   */
+  const getReviewMetadata = useCallback(
+    (id: string): ReviewMetadata | undefined => {
+      if (!view) return undefined;
+
+      const state = view.state.field(reviewField);
+      return state.metadata.find((m) => m.id === id);
+    },
+    [view]
+  );
+
+  /**
+   * Accept a review: keep the improved text (green), remove the original text (red widget)
+   * This deletes the original text range and removes all decorations
+   */
+  const acceptReview = useCallback(
+    (id: string) => {
+      if (!view) return;
+
+      const meta = getReviewMetadata(id);
+      if (!meta) return;
+
+      // Delete the original text range (rangeFrom ~ rangeTo + newline after)
+      // The improved text remains in the document
+      view.dispatch({
+        changes: { from: meta.rangeFrom, to: meta.rangeTo + 1, insert: "" },
+        effects: removeReviewEffect.of(id),
+      });
+    },
+    [view, getReviewMetadata]
+  );
+
+  /**
+   * Reject a review: remove the improved text (green), restore the original text (red)
+   * This deletes the inserted text range and removes decorations (original text is restored automatically)
+   */
+  const rejectReview = useCallback(
+    (id: string) => {
+      if (!view) return;
+
+      const meta = getReviewMetadata(id);
+      if (!meta) return;
+
+      // Delete the inserted text range including the leading newline
+      // The original text is automatically restored when the widget decoration is removed
+      view.dispatch({
+        changes: { from: meta.insertedFrom - 1, to: meta.insertedTo, insert: "" },
+        effects: removeReviewEffect.of(id),
+      });
+    },
+    [view, getReviewMetadata]
+  );
+
   return {
     addReview,
     addReviews,
     removeReview,
     clearReviews,
+    acceptReview,
+    rejectReview,
+    getReviewMetadata,
     reviewExtension: reviewField,
   };
 };

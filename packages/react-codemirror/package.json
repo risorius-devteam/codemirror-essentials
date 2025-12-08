@@ -1,6 +1,6 @@
 {
   "name": "@sung-yeop/codemirror-essentials-react",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React wrapper for CodeMirror 6",
   "author": "sung-yeop",
   "type": "module",

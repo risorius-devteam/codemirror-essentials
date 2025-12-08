@@ -56,8 +56,15 @@ function App() {
   const [activeReviews, setActiveReviews] = useState<string[]>([]);
   const viewRef = useRef<EditorView | null>(null);
 
-  const { addReview, addReviews, removeReview, clearReviews, reviewExtension } =
-    useCmeLineReplace(viewRef.current);
+  const {
+    addReview,
+    addReviews,
+    removeReview,
+    clearReviews,
+    acceptReview,
+    rejectReview,
+    reviewExtension,
+  } = useCmeLineReplace(viewRef.current);
   const { getSelection } = useCmeSelection(viewRef.current);
 
   const handleApplySampleReviews = () => {
@@ -72,6 +79,16 @@ function App() {
 
   const handleRemoveReview = (id: string) => {
     removeReview(id);
+    setActiveReviews((prev) => prev.filter((reviewId) => reviewId !== id));
+  };
+
+  const handleAcceptReview = (id: string) => {
+    acceptReview(id);
+    setActiveReviews((prev) => prev.filter((reviewId) => reviewId !== id));
+  };
+
+  const handleRejectReview = (id: string) => {
+    rejectReview(id);
     setActiveReviews((prev) => prev.filter((reviewId) => reviewId !== id));
   };
 
@@ -283,13 +300,31 @@ function App() {
                       <code>{review.improvedClassName}</code> class
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleRemoveReview(review.id || "")}
-                    className="btn btn-danger"
-                    style={{ padding: "4px 12px", fontSize: "12px" }}
-                  >
-                    Remove
-                  </button>
+                  <div style={{ display: "flex", gap: "4px", flexDirection: "column" }}>
+                    <div style={{ display: "flex", gap: "4px" }}>
+                      <button
+                        onClick={() => handleAcceptReview(review.id || "")}
+                        className="btn btn-primary"
+                        style={{ padding: "4px 12px", fontSize: "12px" }}
+                      >
+                        ✓ Accept
+                      </button>
+                      <button
+                        onClick={() => handleRejectReview(review.id || "")}
+                        className="btn btn-danger"
+                        style={{ padding: "4px 12px", fontSize: "12px" }}
+                      >
+                        ✗ Reject
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveReview(review.id || "")}
+                      className="btn btn-info"
+                      style={{ padding: "4px 12px", fontSize: "12px" }}
+                    >
+                      Remove (decoration only)
+                    </button>
+                  </div>
                 </div>
               ))}
           </div>
@@ -319,9 +354,18 @@ function App() {
             Select any text and click{" "}
             <strong>"Add Review from Selection"</strong> to add your own
           </li>
+        </ul>
+
+        <h3 style={{ marginTop: "20px" }}>Accept / Reject / Remove:</h3>
+        <ul>
           <li>
-            <strong>Note:</strong> Removing a review only removes the highlight,
-            not the inserted text
+            <strong style={{ color: "#4CAF50" }}>Accept</strong>: Keeps the improved text (green), removes the original text (red)
+          </li>
+          <li>
+            <strong style={{ color: "#f44336" }}>Reject</strong>: Removes the improved text (green), restores the original text (red)
+          </li>
+          <li>
+            <strong style={{ color: "#2196F3" }}>Remove</strong>: Only removes highlights/decorations, keeps all text as-is
           </li>
         </ul>
 
